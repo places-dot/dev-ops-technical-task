@@ -29,7 +29,7 @@ https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 3. Provision an AWS RDS multi-AZ instance in the private network.
 4. Provision an AWS ELB routing from the public network to the private network.
 5. (Optional, is a plus) Provision an AWS ACM certificate and attach it to the ELB.
-6. Provision AWS ECR.
+6. (Optional, is a plus) Provision AWS ECR.
 7. (Optional, is a plus) Provision any required AWS IAM roles and policies.
 8. (Optional, is a plus) Automatically pass values required for Ansible and/or Kubernetes manifests.
 
@@ -43,13 +43,14 @@ https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 Create multi-stage Dockerfiles for container images to run the application and worker.
 1. Create a base Ruby image using the latest Alpine Linux. Build the Ruby interpreter from source code, use YJIT, and pass the required compiler flags.
 2. Based on the built image, create a second target with the application.
-3. (Optional, is a plus) If the worker application requires additional features, depending on your solution, create a third target.
-4. Push images to the provisioned AWS ECR.
+3. (Optional) If the worker application requires additional features, depending on your solution, create a third target.
+4. (Optional) Push images to the provisioned AWS ECR.
 
 ### 4. Kubernetes Manifests
 
 Create a set of Kubernetes manifests to deploy the application and worker to the cluster.
-(Optional, is a plus) Use Terraform module: (https://registry.terraform.io/providers/hashicorp/kubernetes/latest)
+(Optional, is a plus) Use Terraform module: (https://registry.terraform.io/providers/hashicorp/kubernetes/latest).
+(Optional, is a plus) Solution should reuse data and facts from terraform or/and ansible automatically.
 
 1. Create an application deployment that runs the Rails application.
 2. Create a worker deployment that runs the GoodJob background processor.
@@ -81,8 +82,8 @@ Use the following gems:
   "headers": <headers object>
 }
 ```
-3. (Optional, is a plus) Stores requested data in the PostgreSQL database as JSON.
-4. Shows request statistics using `rails_performance`.
+3. (Optional, is a plus) Generate request model and store requested body, params, and headers, use JSON type if it is required.
+5. Shows request statistics using `rails_performance`.
 
 
 ### 6. Push solution to the github or any other git repository.
